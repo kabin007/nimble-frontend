@@ -1,0 +1,84 @@
+/* App-level overrides – keep minimal; main styling lives in index.css */
+
+#root {
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* Page title styling */
+.page-title {
+  font-size: 2rem;
+  font-weight: bold;
+  letter-spacing: -0.01em;
+}
+
+/* Page header styling */
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  border: 1px solid hsl(214 18% 86%);
+  background: linear-gradient(to right, hsl(210 24% 98%), hsl(210 20% 96%));
+}
+
+.page-subtitle {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: hsl(215 15% 43%);
+}
+
+/* Stat cards with subtle enterprise styling */
+.stat-card {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(243, 247, 251, 0.95));
+  border: 1px solid hsl(214 18% 86%);
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+  border-color: hsl(221 45% 64%);
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.08);
+}
+
+/* Data table wrapper */
+.data-table-wrapper {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(244, 247, 251, 0.94));
+  border: 1px solid hsl(214 18% 86%);
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+}
+
+/* Button gradients (kept for selective use) */
+.btn-primary-gradient {
+  background: linear-gradient(135deg, hsl(221 61% 32%), hsl(221 55% 38%));
+  color: white;
+}
+
+.btn-accent-gradient {
+  background: linear-gradient(135deg, hsl(189 72% 34%), hsl(189 68% 40%));
+  color: white;
+}
+
+/* Chart colors for red-blue theme */
+.chart-gradient-1 {
+  fill: url(#gradient1);
+}
+
+.chart-gradient-2 {
+  fill: url(#gradient2);
+}
+
+/* Alert styling */
+.alert-info {
+  background: linear-gradient(135deg, rgba(3, 105, 161, 0.08), rgba(3, 105, 161, 0.02));
+  border-color: hsl(204 82% 58%);
+  color: hsl(204 82% 30%);
+}
+
+.alert-warning {
+  background: linear-gradient(135deg, rgba(180, 83, 9, 0.08), rgba(180, 83, 9, 0.02));
+  border-color: hsl(36 88% 56%);
+  color: hsl(30 92% 32%);
+}
+
