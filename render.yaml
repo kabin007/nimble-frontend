@@ -1,0 +1,8 @@
+services:
+  - type: static
+    name: NimbleGarment-Frontend
+    buildCommand: bun run build
+    staticPublishPath: ./dist
+    envs:
+      - key: NODE_ENV
+        value: production
