@@ -6,9 +6,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { AlertCircle, Loader2 } from "lucide-react";
-import axios from "axios";
-
-const API_BASE_URL = "http://localhost:8000/api";
+import { authAPI } from "@/lib/api";
+import api from "@/lib/api";
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -23,19 +22,14 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      const response = await axios.post(`${API_BASE_URL}/auth/login/`, {
-        username,
-        password,
-      });
-
-      const { access_token, user } = response.data;
+      const { access_token, user } = await authAPI.login(username, password);
 
       // Store token and user data
       localStorage.setItem("access_token", access_token);
       localStorage.setItem("user", JSON.stringify(user));
 
       // Set axios default header
-      axios.defaults.headers.common["Authorization"] = `Bearer ${access_token}`;
+      api.defaults.headers.common["Authorization"] = `Bearer ${access_token}`;
 
       // Redirect to dashboard
       navigate("/", { replace: true });

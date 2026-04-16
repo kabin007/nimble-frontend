@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from "axios";
 
-const API_URL = import.meta.env.VITE_API_URL || "https://nimble-backend-6245.onrender.com";
+const API_URL = import.meta.env.VITE_API_URL || "https://nimble-backend-6245.onrender.com/api";
 
 const api: AxiosInstance = axios.create({
   baseURL: API_URL,
@@ -189,6 +189,14 @@ export const dealerAPI = {
 // ============ AUTH API ============
 
 export const authAPI = {
+  login: async (username: string, password: string) => {
+    const res = await api.post("/auth/login/", { username, password });
+    return res.data;
+  },
+  register: async (data: any) => {
+    const res = await api.post("/auth/register/", data);
+    return res.data;
+  },
   me: async () => {
     const res = await api.get("/auth/me/");
     return res.data;
