@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from "axios";
 
-const API_URL = import.meta.env.VITE_API_URL || "https://nimble-backend-bvti.onrender.com/api";
+const API_URL = import.meta.env.VITE_API_URL || "https://nimble-backend-6245.onrender.com/api";
 
 const api: AxiosInstance = axios.create({
   baseURL: API_URL,
