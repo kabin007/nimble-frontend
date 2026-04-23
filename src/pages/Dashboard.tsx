@@ -102,7 +102,7 @@ export default function Dashboard() {
   // Build monthly data by grouping transactions by month
   const monthlyData = (() => {
     const months = new Map<string, { month: string; income: number; expense: number }>();
-    
+
     transactions.forEach((t) => {
       const date = new Date(t.date);
       const monthKey = date.toLocaleString('default', { month: 'short' });
@@ -129,11 +129,18 @@ export default function Dashboard() {
 
   return (
     <div className="space-y-6">
-      <div className="page-header bg-gradient-to-r from-blue-50 to-red-50 rounded-lg p-4 border border-blue-100">
+      <div className="page-header bg-gradient-to-r from-blue-50 to-orange-50 rounded-lg p-4 border border-blue-200">
+
         <div>
-          <h1 className="page-title bg-gradient-to-r from-blue-600 to-red-600 bg-clip-text text-transparent">Dashboard</h1>
-          <p className="page-subtitle text-gray-600">Overview of your garment business</p>
+          <h1 className="page-title text-blue-600">
+            Dashboard
+          </h1>
+
+          <p className="page-subtitle text-gray-600">
+            Overview of your garment business
+          </p>
         </div>
+
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">

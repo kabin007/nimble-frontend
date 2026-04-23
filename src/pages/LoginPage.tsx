@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { AlertCircle, Loader2 } from "lucide-react";
+import { AlertCircle, Loader2, Lock } from "lucide-react";
 import { authAPI } from "@/lib/api";
 import api from "@/lib/api";
 
@@ -23,20 +23,15 @@ export default function LoginPage() {
 
     try {
       const { access_token, user } = await authAPI.login(username, password);
-
-      // Store token and user data
       localStorage.setItem("access_token", access_token);
       localStorage.setItem("user", JSON.stringify(user));
-
-      // Set axios default header
       api.defaults.headers.common["Authorization"] = `Bearer ${access_token}`;
-
-      // Redirect to dashboard
       navigate("/", { replace: true });
     } catch (err: any) {
-      const errorMessage = err.response?.data?.detail || 
-                          err.response?.data?.error || 
-                          "Login failed. Please check your credentials.";
+      const errorMessage =
+        err.response?.data?.detail ||
+        err.response?.data?.error ||
+        "Login failed. Please check your credentials.";
       setError(errorMessage);
     } finally {
       setLoading(false);
@@ -44,18 +39,28 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-600 via-blue-500 to-red-600 p-4">
-      <Card className="w-full max-w-md shadow-2xl border-0">
-        <CardHeader className="space-y-2 bg-gradient-to-r from-blue-50 to-red-50 rounded-t-lg">
-          <CardTitle className="text-3xl font-bold text-center bg-gradient-to-r from-blue-600 to-red-600 bg-clip-text text-transparent">
-            Garment Guru
+    <div className="min-h-screen flex items-center justify-center bg-[#1A4B8C] p-4">
+      <Card className="w-full max-w-md shadow-xl border-0 overflow-hidden">
+        {/* Two-tone accent bar */}
+        <div className="h-1 w-full flex">
+          <div className="flex-1 bg-[#1A4B8C]" />
+          <div className="flex-1 bg-[#E8680A]" />
+        </div>
+
+        <CardHeader className="flex flex-col items-center space-y-2 pt-8 pb-4">
+          <div className="w-12 h-12 rounded-lg bg-[#E8680A] flex items-center justify-center mb-1">
+            <Lock className="text-white w-6 h-6" />
+          </div>
+          <CardTitle className="text-[22px] font-medium text-center text-gray-900">
+            Nimble Garment Management System
           </CardTitle>
-          <CardDescription className="text-center text-gray-600">
-            Sign in to your account to continue
+          <CardDescription className="text-center text-gray-500 text-sm">
+            Login
           </CardDescription>
         </CardHeader>
-        <CardContent className="pt-6">
-          <form onSubmit={handleLogin} className="space-y-4">
+
+        <CardContent className="px-8 pb-8">
+          <form onSubmit={handleLogin} className="space-y-5">
             {error && (
               <Alert variant="destructive">
                 <AlertCircle className="h-4 w-4" />
@@ -63,8 +68,8 @@ export default function LoginPage() {
               </Alert>
             )}
 
-            <div className="space-y-2">
-              <Label htmlFor="username" className="text-blue-700 font-semibold">
+            <div className="space-y-1.5">
+              <Label htmlFor="username" className="text-sm font-medium text-gray-600">
                 Username
               </Label>
               <Input
@@ -75,12 +80,12 @@ export default function LoginPage() {
                 onChange={(e) => setUsername(e.target.value)}
                 disabled={loading}
                 required
-                className="border-blue-200 focus:border-blue-500 focus:ring-blue-500"
+                className="border-gray-200 focus:border-[#1A4B8C] focus:ring-[#1A4B8C]"
               />
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="password" className="text-blue-700 font-semibold">
+            <div className="space-y-1.5">
+              <Label htmlFor="password" className="text-sm font-medium text-gray-600">
                 Password
               </Label>
               <Input
@@ -91,13 +96,13 @@ export default function LoginPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 disabled={loading}
                 required
-                className="border-blue-200 focus:border-blue-500 focus:ring-blue-500"
+                className="border-gray-200 focus:border-[#1A4B8C] focus:ring-[#1A4B8C]"
               />
             </div>
 
-            <Button 
-              type="submit" 
-              className="w-full bg-gradient-to-r from-blue-600 to-red-600 hover:from-blue-700 hover:to-red-700 text-white font-semibold py-2 rounded-lg transition-all duration-300"
+            <Button
+              type="submit"
+              className="w-full bg-[#E8680A] hover:bg-[#CF5A08] text-white font-medium py-2 rounded-lg transition-colors duration-200"
               disabled={loading}
             >
               {loading ? (
@@ -106,18 +111,17 @@ export default function LoginPage() {
                   Signing in...
                 </>
               ) : (
-                "Sign In"
+                "Sign in"
               )}
             </Button>
-          </form>
 
-          <div className="mt-6 p-4 bg-gradient-to-r from-blue-50 to-red-50 rounded-lg border border-blue-200">
-            <p className="text-sm font-bold text-blue-900 mb-2">Demo Credentials:</p>
-            <div className="space-y-1 text-xs text-blue-800">
-              <p><span className="font-semibold text-red-600">Owner:</span> owner / owner123</p>
-              <p><span className="font-semibold text-red-600">Manager:</span> manager / manager123</p>
-            </div>
-          </div>
+            <p className="text-center text-xs text-gray-400 pt-1">
+              Having trouble?{" "}
+              <a href="#" className="text-[#1A4B8C] font-medium hover:underline">
+                Contact support
+              </a>
+            </p>
+          </form>
         </CardContent>
       </Card>
     </div>
