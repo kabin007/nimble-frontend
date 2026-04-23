@@ -153,7 +153,7 @@ export default function DealersPage() {
                 )
                 .map((d) => (
                   <TableRow key={d.id}>
-                    <TableCell className="text-xs font-medium">{d.company}</TableCell>
+                    <TableCell className="text-xs font-medium">{d.name}</TableCell>
                     <TableCell className="text-xs">{d.contact || "—"}</TableCell>
                     <TableCell className="text-xs font-mono">{d.phone || "—"}</TableCell>
                     <TableCell className="text-xs">{d.email || "—"}</TableCell>

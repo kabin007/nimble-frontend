@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from "axios";
 
-const API_URL = import.meta.env.VITE_API_URL || "https://nimble-backend-6245.onrender.com/api";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000/api";
 
 const api: AxiosInstance = axios.create({
   baseURL: API_URL,
@@ -47,19 +47,19 @@ export const employeeAPI = {
 
 export const attendanceAPI = {
   getAll: async () => {
-    const res = await api.get("/attendance/");
+    const res = await api.get("/employees/attendance/");
     return res.data;
   },
   create: async (data: any) => {
-    const res = await api.post("/attendance/", data);
+    const res = await api.post("/employees/attendance/", data);
     return res.data;
   },
   delete: async (id: string) => {
-    const res = await api.delete(`/attendance/${id}/`);
+    const res = await api.delete(`/employees/attendance/${id}/`);
     return res.data;
   },
   update : async (id: string, data: any) => {
-    const res = await api.patch(`/attendance/${id}/`, data);
+    const res = await api.patch(`/employees/attendance/${id}/`, data);
     return res.data;
   }
 };

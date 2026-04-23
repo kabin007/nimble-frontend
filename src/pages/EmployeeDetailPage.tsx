@@ -16,7 +16,7 @@ import { Input } from "@/components/ui/input";
 export default function EmployeeDetailPage() {
   const { employeeId } = useParams<{ employeeId: string }>();
   const navigate = useNavigate();
-  
+
   const [employee, setEmployee] = useState<Employee | null>(null);
   const [attendance, setAttendance] = useState<Attendance[]>([]);
   const [advances, setAdvances] = useState<EmployeeAdvance[]>([]);
@@ -26,14 +26,14 @@ export default function EmployeeDetailPage() {
 
   useEffect(() => {
     if (!employeeId) return;
-    
+
     const fetchData = async () => {
       try {
         setLoading(true);
         // Fetch employee first
         const empData = await employeeAPI.getById(employeeId);
         setEmployee(empData);
-        
+
         // Fetch attendance and advances separately so they don't block employee loading
         try {
           const attendanceData = await attendanceAPI.getAll();
@@ -43,7 +43,7 @@ export default function EmployeeDetailPage() {
           console.error("Failed to fetch attendance data:", err);
           setAttendance([]);
         }
-        
+
         try {
           const advancesData = await advanceAPI.getAll();
           const advances = Array.isArray(advancesData) ? advancesData : advancesData.results || [];
@@ -70,7 +70,8 @@ export default function EmployeeDetailPage() {
   }
 
   const totalAdvances = advances.reduce((sum, a) => sum + a.amount, 0);
-  const fmt = (n: number) => "₹" + n.toLocaleString("en-IN");
+  const fmt = (n: number | string) =>
+    "₹" + Number(n).toLocaleString("en-IN");
 
   const handleAddAdvance = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -138,14 +139,14 @@ export default function EmployeeDetailPage() {
       <Card className="overflow-hidden border-0 shadow-lg">
         {/* Background Banner */}
         <div className="h-32 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500"></div>
-        
+
         <CardContent className="relative px-6 pb-6">
           {/* Profile Picture - Circular */}
           <div className="flex flex-col sm:flex-row items-start sm:items-end gap-4 -mt-16 mb-6">
             <div className="relative">
               {employee.profilePicture ? (
-                <img 
-                  src={employee.profilePicture} 
+                <img
+                  src={employee.profilePicture}
                   alt={employee.name}
                   className="w-32 h-32 rounded-full border-4 border-white object-cover shadow-lg"
                 />
@@ -360,8 +361,8 @@ export default function EmployeeDetailPage() {
                               att.status === "present"
                                 ? "default"
                                 : att.status === "absent"
-                                ? "destructive"
-                                : "secondary"
+                                  ? "destructive"
+                                  : "secondary"
                             }
                             className="text-xs"
                           >

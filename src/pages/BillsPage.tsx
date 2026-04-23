@@ -166,7 +166,7 @@ export default function BillsPage() {
                 <div><Label>Email</Label><Input name="email" type="email" /></div>
                 <div className="col-span-2"><Label>Address</Label><Input name="address" placeholder="Street address" /></div>
                 <div className="col-span-2"><Label>Type</Label>
-                  <Select defaultValue="" onValueChange={(val) => {const input = document.querySelector('input[name="dealerType"]') as HTMLInputElement; if(input) input.value = val;}}>
+                  <Select defaultValue="" onValueChange={(val) => { const input = document.querySelector('input[name="dealerType"]') as HTMLInputElement; if (input) input.value = val; }}>
                     <SelectTrigger><SelectValue placeholder="Select type" /></SelectTrigger>
                     <SelectContent>
                       <SelectItem value="supplier">Supplier</SelectItem>
@@ -206,11 +206,22 @@ export default function BillsPage() {
                   <Select value={selectedDealer} onValueChange={setSelectedDealer}>
                     <SelectTrigger><SelectValue placeholder={dealers.length === 0 ? "No dealers available" : "Select dealer"} /></SelectTrigger>
                     <SelectContent>
-                      {dealers.map(d => (
+                      {dealers.map((d) => (
                         <SelectItem key={String(d.id)} value={String(d.id)}>
                           {d.name || d.company || `Dealer #${d.id}`}
                         </SelectItem>
                       ))}
+
+                      {/* Add new vendor option */}
+                      <div
+                        className="px-3 py-2 text-sm text-blue-600 cursor-pointer hover:bg-gray-100"
+                        onClick={() => {
+                          setDealerDialogOpen(true);
+                          document.body.click(); // closes select dropdown
+                        }}
+                      >
+                        ➕ Add New Vendor
+                      </div>
                     </SelectContent>
                   </Select>
                 </div>
@@ -227,8 +238,12 @@ export default function BillsPage() {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <StatCard title="Total Paid" value={"₹" + bills.filter((b) => b.status === "paid").reduce((s, b) => s + b.amount, 0).toLocaleString("en-IN")} icon={CheckCircle} iconColor="text-success" />
-        <StatCard title="Unpaid Amount" value={"₹" + bills.filter((b) => b.status !== "paid").reduce((s, b) => s + b.amount, 0).toLocaleString("en-IN")} icon={FileText} iconColor="text-warning" />
+        <StatCard title="Total Paid" value={"₹" +
+          bills
+            .filter((b) => b.status === "paid")
+            .reduce((s, b) => s + Number(b.amount), 0)
+            .toLocaleString("en-IN")} icon={CheckCircle} iconColor="text-success" />
+        <StatCard title="Unpaid Amount" value={"₹" + bills.filter((b) => b.status !== "paid").reduce((s, b) => s + Number(b.amount), 0).toLocaleString("en-IN")} icon={FileText} iconColor="text-warning" />
         <StatCard title="Overdue Bills" value={String(bills.filter((b) => b.status === "overdue").length)} icon={AlertTriangle} iconColor="text-destructive" />
       </div>
 
@@ -261,7 +276,7 @@ export default function BillsPage() {
                 <TableHead className="text-xs">Due Date</TableHead>
                 <TableHead className="text-xs">Image</TableHead>
                 <TableHead className="text-xs text-right">Amount</TableHead>
-                <TableHead className="text-xs">Transaction</TableHead>
+                <TableHead className="text-xs">Bill Type</TableHead>
                 <TableHead className="text-xs">Status</TableHead>
                 <TableHead className="text-xs">Action</TableHead>
               </TableRow>
@@ -269,8 +284,13 @@ export default function BillsPage() {
             <TableBody>
               {bills
                 .filter((b) => {
-                  const dealerName = dealers.find(d => String(d.id) === String(b.vendor))?.name || b.vendor;
-                  const matchSearch = dealerName.toLowerCase().includes(search.toLowerCase()) || b.billNumber.toLowerCase().includes(search.toLowerCase());
+                  const dealerName =
+                    (dealers.find((d) => String(d.id) === String(b.vendor))?.name || "")
+                      .toLowerCase();
+
+                  const matchSearch =
+                    dealerName.includes(search.toLowerCase()) ||
+                    b.billNumber.toLowerCase().includes(search.toLowerCase());
                   const matchStatus = filterStatus === "all" || b.status === filterStatus;
                   return matchSearch && matchStatus;
                 })
@@ -297,9 +317,9 @@ export default function BillsPage() {
                     </TableCell>
                     <TableCell className="text-xs text-right font-medium">₹{b.amount.toLocaleString("en-IN")}</TableCell>
                     <TableCell className="text-xs">
-                      {b.transactionId ? (
+                      {b.transactionType ? (
                         <span className="text-blue-600 font-medium">
-                          {transactions.find(t => String(t.id) === String(b.transactionId))?.category || "—"}
+                          {b.transactionType.charAt(0).toUpperCase() + b.transactionType.slice(1)}
                         </span>
                       ) : (
                         <span className="text-muted-foreground">—</span>

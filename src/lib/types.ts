@@ -80,6 +80,7 @@ export interface Bill {
   items: { description: string; amount: number }[];
   date: string;
   billImage?: string;
+  transactionType?: string;
 }
 
 export interface Dealer {
